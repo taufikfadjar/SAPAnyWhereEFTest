@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="Sap.Data.SQLAnywhere" ProviderManifestToken="17" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EdmCategories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="EdmProducts">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" />
+          <Property Name="CategoryID" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="EdmSuppliers">
+          <Key>
+            <PropertyRef Name="SupplierCode" />
+          </Key>
+          <Property Name="SupplierCode" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hello">
+          <Key>
+            <PropertyRef Name="Hello" />
+          </Key>
+          <Property Name="Hello" Type="bigint" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EdmProducts_EdmCategories_CategoryID">
+          <End Role="EdmCategories" Type="Self.EdmCategories" Multiplicity="0..1" />
+          <End Role="EdmProducts" Type="Self.EdmProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EdmCategories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="EdmProducts">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="EdmCategories" EntityType="Self.EdmCategories" Schema="DBA" store:Type="Tables" />
+          <EntitySet Name="EdmProducts" EntityType="Self.EdmProducts" Schema="DBA" store:Type="Tables" />
+          <EntitySet Name="EdmSuppliers" EntityType="Self.EdmSuppliers" Schema="DBA" store:Type="Tables" />
+          <EntitySet Name="Hello" EntityType="Self.Hello" Schema="DBA" store:Type="Tables" />
+          <AssociationSet Name="FK_EdmProducts_EdmCategories_CategoryID" Association="Self.FK_EdmProducts_EdmCategories_CategoryID">
+            <End Role="EdmCategories" EntitySet="EdmCategories" />
+            <End Role="EdmProducts" EntitySet="EdmProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EdmCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EdmProducts" Relationship="Self.FK_EdmProducts_EdmCategories_CategoryID" FromRole="EdmCategories" ToRole="EdmProducts" />
+        </EntityType>
+        <EntityType Name="EdmProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EdmCategory" Relationship="Self.FK_EdmProducts_EdmCategories_CategoryID" FromRole="EdmProducts" ToRole="EdmCategories" />
+        </EntityType>
+        <EntityType Name="EdmSupplier">
+          <Key>
+            <PropertyRef Name="SupplierCode" />
+          </Key>
+          <Property Name="SupplierCode" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hello">
+          <Key>
+            <PropertyRef Name="Hello1" />
+          </Key>
+          <Property Name="Hello1" Type="Int64" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_EdmProducts_EdmCategories_CategoryID">
+          <End Role="EdmCategories" Type="Self.EdmCategory" Multiplicity="0..1" />
+          <End Role="EdmProducts" Type="Self.EdmProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EdmCategories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="EdmProducts">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EdmCategories" EntityType="Self.EdmCategory" />
+          <EntitySet Name="EdmProducts" EntityType="Self.EdmProduct" />
+          <EntitySet Name="EdmSuppliers" EntityType="Self.EdmSupplier" />
+          <EntitySet Name="Helloes" EntityType="Self.Hello" />
+          <AssociationSet Name="FK_EdmProducts_EdmCategories_CategoryID" Association="Self.FK_EdmProducts_EdmCategories_CategoryID">
+            <End Role="EdmCategories" EntitySet="EdmCategories" />
+            <End Role="EdmProducts" EntitySet="EdmProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="EdmCategories">
+            <EntityTypeMapping TypeName="Model.EdmCategory">
+              <MappingFragment StoreEntitySet="EdmCategories">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EdmProducts">
+            <EntityTypeMapping TypeName="Model.EdmProduct">
+              <MappingFragment StoreEntitySet="EdmProducts">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EdmSuppliers">
+            <EntityTypeMapping TypeName="Model.EdmSupplier">
+              <MappingFragment StoreEntitySet="EdmSuppliers">
+                <ScalarProperty Name="SupplierCode" ColumnName="SupplierCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Helloes">
+            <EntityTypeMapping TypeName="Model.Hello">
+              <MappingFragment StoreEntitySet="Hello">
+                <ScalarProperty Name="Hello1" ColumnName="Hello" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
